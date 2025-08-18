@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes voeux{% endblock %}
+
+{% block body %}
+    <h2>ma liste de voeux pour noel</h2>
+
+    <ul>
+        {% for wish in wishes %}
+            <li>
+                <a href="{{ path('app_wish_detail', { id: wish.id }) }}">
+                    {{ wish.title }}
+                </a>
+            </li>
+        {% else %}
+            <li>juste un morceau de charbon, pour les enfants pas sages</li>
+        {% endfor %}
+    </ul>
+
+
+
+
+{% endblock %}
