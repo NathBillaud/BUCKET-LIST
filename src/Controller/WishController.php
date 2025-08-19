@@ -14,6 +14,7 @@ use function PHPUnit\Framework\throwException;
 use App\Form\WishType;
 
 
+
 //#[Route('/wish',name: 'wish')]
 final class WishController extends AbstractController
 {
@@ -104,7 +105,9 @@ final class WishController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$wish->getId(), $request->request->get('_token'))) {
             $em->remove($wish);
             $em->flush();
-            $this->addFlash('success', 'Idea successfully deleted!');
+            $this->addFlash('success', 'Wish successfully deleted!');
+        }else{
+            $this->addFlash('danger', 'le voeu ne peut etre supprimé');
         }
 
         return $this->redirectToRoute('app_wish_list');
