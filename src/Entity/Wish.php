@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WishRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Wish
 {
     #[ORM\Id]
@@ -29,7 +30,7 @@ class Wish
     #[ORM\Column]
     private ?\DateTime $dateCreated = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTime $dateUpdated = null;
 
     public function getId(): ?int
@@ -90,9 +91,10 @@ class Wish
         return $this->dateCreated;
     }
 
-    public function setDateCreated(\DateTime $dateCreated): static
+    #[ORM\PrePersist]
+    public function setDateCreated(): static
     {
-        $this->dateCreated = $dateCreated;
+        $this->dateCreated = new \DateTime();
 
         return $this;
     }
@@ -102,9 +104,11 @@ class Wish
         return $this->dateUpdated;
     }
 
-    public function setDateUpdated(\DateTime $dateUpdated): static
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setDateUpdated(): static
     {
-        $this->dateUpdated = $dateUpdated;
+        $this->dateUpdated = new \DateTime();
 
         return $this;
     }

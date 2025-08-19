@@ -9,6 +9,15 @@
         <p>Auteur : {{ wish.author }}</p>
         <p>Créée le : {{ wish.dateCreated|date('d/m/Y H:i') }}</p>
 
-        <a href="{{ path('app_wish_list') }}" class="btn btn-secondary mt-3">← Retour à la liste</a>
+        <div class="mt-4">
+            <a href="{{ path('app_wish_list') }}" class="btn btn-secondary">← Retour à la liste</a>
+
+            <a href="{{ path('app_wish_update', {id: wish.id}) }}" class="btn btn-warning">Modifier</a>
+
+            <form action="{{ path('app_wish_delete', {id: wish.id}) }}" method="post" style="display:inline;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ wish.id) }}">
+                <button class="btn btn-danger">Supprimer</button>
+            </form>
+        </div>
     </div>
 {% endblock %}

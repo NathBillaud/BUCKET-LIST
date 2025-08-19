@@ -6,9 +6,13 @@ use App\Entity\Wish;
 use App\Repository\WishRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use function PHPUnit\Framework\throwException;
+use App\Form\WishType;
+
 
 //#[Route('/wish',name: 'wish')]
 final class WishController extends AbstractController
@@ -40,13 +44,70 @@ final class WishController extends AbstractController
 
         );
 
-        if(!$wishes){
-            throw $this->createNotFoundException('rien trouvé, recommence ta lettre');
-}
+      //  if(!$wishes){
+        //    throw $this->createNotFoundException('rien trouvé, recommence ta lettre');
+//}
 
         return $this->render('wish/list.html.twig', [
             'wishes' => $wishes
         ]);
+    }
+
+    #[Route('/wishes/create', name: 'app_wish_create')]
+    public function create(Request $request, EntityManagerInterface $em): Response
+    {
+        $wish = new Wish();
+        $form = $this->createForm(WishType::class, $wish);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+
+            $em->persist($wish);
+            $em->flush();
+
+            $this->addFlash('success', 'le voeu a été pris en compte!');
+
+            return $this->redirectToRoute('app_wish_detail', ['id' => $wish->getId()]);
+        }
+
+        return $this->render('wish/edit.html.twig', [
+            'wish_form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/wishes/update{id}', name: 'app_wish_update', requirements: ['id' => '\d+'])]
+    public function update(Request $request, Wish $wish, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(WishType::class, $wish);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+
+            $em->flush();
+
+            $this->addFlash('success', 'Wish successfully updated!');
+            return $this->redirectToRoute('app_wish_detail', ['id' => $wish->getId()]);
+        }
+
+        return $this->render('wish/edit.html.twig', [
+            'wish_form' => $form,
+
+        ]);
+
+
+    }
+
+    #[Route('/wishes/{id}/delete', name: 'app_wish_delete', methods: ['POST'])]
+    public function delete(Request $request, Wish $wish, EntityManagerInterface $em): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$wish->getId(), $request->request->get('_token'))) {
+            $em->remove($wish);
+            $em->flush();
+            $this->addFlash('success', 'Idea successfully deleted!');
+        }
+
+        return $this->redirectToRoute('app_wish_list');
     }
 
 

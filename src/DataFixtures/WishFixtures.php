@@ -20,7 +20,7 @@ class WishFixtures extends Fixture
             $wish->setTitle($faker->realText(30))
                 ->setDescription($faker->realText (250))
                 ->setAuthor($faker->realText(50))
-                ->setIsPublished($faker->boolean(false))
+                ->setIsPublished(true)
                 ->setDateCreated(new \DateTime())
                 ->setDateUpdated(new \DateTime())
 
