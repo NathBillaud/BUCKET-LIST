@@ -62,7 +62,7 @@ final class WishController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted()&& $form->isValid()) {
 
             $em->persist($wish);
             $em->flush();
@@ -83,7 +83,7 @@ final class WishController extends AbstractController
         $form = $this->createForm(WishType::class, $wish);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $em->flush();
 

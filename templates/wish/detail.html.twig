@@ -7,6 +7,7 @@
         <h2>{{ wish.title }}</h2>
         <p>{{ wish.description }}</p>
         <p>Auteur : {{ wish.author }}</p>
+        <p>Category : {{ wish.category.name }}</p>
         <p>Créée le : {{ wish.dateCreated|date('d/m/Y H:i') }}</p>
 
         <div class="mt-4">

@@ -24,13 +24,14 @@
             <h1>Bucket-List</h1>
         </div>
         <nav>
-            <div class="container">
-                <a class="navbar-brand" href="{{ path('app_home') }}">Home</a>
-                <a class="navbar-brand" href="{{ path('app_about') }}">About us</a>
-                <a class="navbar-brand" href="{{ path('app_wish_list') }}">List</a>
-                <a href="{{ path('app_wish_create') }}">Add Yours!!!!!</a>
+            <ul>
+                <li><a href="{{ path('app_home') }}">Home</a></li>
+                <li><a href="{{ path('app_about') }}">About us</a></li>
+                <li><a href="{{ path('app_wish_list') }}">List</a></li>
+                <li><a href="{{ path('app_wish_create') }}">Add Yours!!!!!</a></li>
+                <li><a href="{{ path('app_category_create') }}">New Category</a></li>
 
-            </div>
+            </ul>
         </nav>
     {% endblock %}
 </header>
