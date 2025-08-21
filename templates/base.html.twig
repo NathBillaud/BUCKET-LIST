@@ -26,11 +26,22 @@
         <nav>
             <ul>
                 <li><a href="{{ path('app_home') }}">Home</a></li>
+
+                {% if is_granted('IS_AUTHENTICATED') %}
                 <li><a href="{{ path('app_about') }}">About us</a></li>
                 <li><a href="{{ path('app_wish_list') }}">List</a></li>
+                {% endif %}
+
+                {% if  is_granted('ROLE_ADMIN')%}
                 <li><a href="{{ path('app_wish_create') }}">Add Yours!!!!!</a></li>
                 <li><a href="{{ path('app_category_create') }}">New Category</a></li>
+                {% endif %}
 
+                {% if is_granted('IS_AUTHENTICATED') %}
+                <li><a href="{{ path('app_logout') }}">Deconnexion</a></li>
+                {% else %}
+                <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+                {% endif %}
             </ul>
         </nav>
     {% endblock %}
